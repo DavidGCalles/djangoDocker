@@ -1,16 +1,23 @@
 version: "3.8"
 
 services:
-  #sqldjango:
-    #image: mariadb
+  sqldjango:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: example
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+    volumes:
+      - ./sqlData:/var/lib/mysql
+  adminer:
+    image: adminer
     #restart: always
-    #environment:
-      #MYSQL_ROOT_PASSWORD: example
-      #MYSQL_DATABASE: example
-      #MYSQL_USER: example
-      #MYSQL_PASSWORD: example
-    #volumes:
-      #- sqlData:/var/lib/mysql
+    ports:
+      - 8070:8080
+    depends_on: 
+      - sqldjango
   appdjango:
     build:
       context: .
@@ -18,5 +25,5 @@ services:
     ports:
       - 80:80
     command: /usr/sbin/apache2ctl -D FOREGROUND
-#volumes:
-  #sqlData:
+    volumes:
+      - .:/var/www/html
