@@ -11,6 +11,7 @@ services:
       MYSQL_PASSWORD: example
     volumes:
       - ./sqlData:/var/lib/mysql
+      - ./sqlDump:/docker-entrypoint-initdb.d/
   adminer:
     image: adminer
     #restart: always
